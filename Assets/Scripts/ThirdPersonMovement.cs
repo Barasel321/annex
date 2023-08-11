@@ -51,6 +51,8 @@ public class ThirdPersonMovement : MonoBehaviour
             velocity.y = -1f;
             if (Input.GetButtonDown("Jump")){
                 //replace for no sqrt?
+
+                //h = sqrt(2*g*h)
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
         }
