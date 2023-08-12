@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class ThirdPersonMovement : MonoBehaviour
 {
 
@@ -24,7 +25,7 @@ public class ThirdPersonMovement : MonoBehaviour
     public LayerMask groundMask;
 
     bool onGround;
-    private PlayerInput playerInput;
+    // private PlayerInput playerInput;
     private PlayerInputActions playerInputActions;
 
 
@@ -40,11 +41,6 @@ public class ThirdPersonMovement : MonoBehaviour
         
     }
 
-/*
-    private void MovementPerformed(InputAction.CallbackContext context){
-        ;
-    }
-*/
     private void JumpPerformed(InputAction.CallbackContext context){
         if (!context.performed){
             return;
@@ -63,15 +59,11 @@ public class ThirdPersonMovement : MonoBehaviour
     
     private void AltFirePerformed(InputAction.CallbackContext context){
         animator.SetBool("isShielding",true);
-        print("block");
     }
 
-        private void AltFireCanceled(InputAction.CallbackContext context){
+    private void AltFireCanceled(InputAction.CallbackContext context){
         animator.SetBool("isShielding",false);
-        print("release");
     }
-    
-
 
     // Update is called once per frame
     void Update()
@@ -99,7 +91,7 @@ public class ThirdPersonMovement : MonoBehaviour
         onGround = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (onGround && velocity.y < 0){
-            velocity.y = -2f;
+            velocity.y = Mathf.Min(-2,velocity.y/2);
         }
 
         velocity.y += gravity * Time.deltaTime;
