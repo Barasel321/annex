@@ -35,35 +35,23 @@ public class ThirdPersonMovement : MonoBehaviour
 
         //playerInputActions.Player.Movement.performed += MovementPerformed;
         playerInputActions.Player.Jump.performed += JumpPerformed;
-        playerInputActions.Player.Fire.performed += FirePerformed;
-        playerInputActions.Player.AltFire.performed += AltFirePerformed;
-        playerInputActions.Player.AltFire.canceled += AltFireCanceled;
+        playerInputActions.Player.Sprint.performed += SprintPerformed;
         
     }
 
     private void JumpPerformed(InputAction.CallbackContext context){
-        if (!context.performed){
-            return;
-        }
+
         if (onGround){
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
     }
 
-    private void FirePerformed(InputAction.CallbackContext context){
-        if (!context.performed){
-            return;
-        }
-        animator.SetTrigger("attack");
-    }
-    
-    private void AltFirePerformed(InputAction.CallbackContext context){
-        animator.SetBool("isShielding",true);
+    private void SprintPerformed(InputAction.CallbackContext context){
+        
+        animator.SetBool("isRunning",!animator.GetBool("isRunning"));
+        if (animator.GetBool("isRunning")) speed *=2; else speed /=2;
     }
 
-    private void AltFireCanceled(InputAction.CallbackContext context){
-        animator.SetBool("isShielding",false);
-    }
 
     // Update is called once per frame
     void Update()

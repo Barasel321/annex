@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public interface InteractionAction{
-    public void Interact();
+    public void Interact(Transform interactor);
 }
 
 public class ThirdPersonAction : MonoBehaviour
@@ -56,14 +56,14 @@ public class ThirdPersonAction : MonoBehaviour
 
     private void InteractPerformed(InputAction.CallbackContext context){
         RaycastHit hit;
-        targetFound = Physics.Raycast(cam.position, cam.TransformDirection(Vector3.forward), out hit, interactDistance, interactMask);
+        
+        targetFound = Physics.Raycast(transform.GetChild(1).position, transform.TransformDirection(Vector3.forward), out hit, interactDistance, interactMask);
         
         if (targetFound){
             if (((1 << hit.collider.gameObject.layer) & interactMask) != 0){
                 print("toggled!");
                 if(hit.collider.gameObject.TryGetComponent(out InteractionAction interactAction)){
-                    print("taaaaaa");
-                    interactAction.Interact();
+                    interactAction.Interact(controller.transform);
                 }
             }
         }
