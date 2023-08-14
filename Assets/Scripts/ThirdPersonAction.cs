@@ -53,10 +53,13 @@ public class ThirdPersonAction : MonoBehaviour
     }
 
     private void FirePerformed(InputAction.CallbackContext context){
-        if (!context.performed){
-            return;
-        }
+
         animator.SetTrigger("attack");
+
+        Transform weapon_r = transform.Find("player_robot_scaled/rot/body/upper_body/arm_r/elbow_r/weapon_r").GetChild(activeWeaponR);
+
+        weapon_r.GetComponent<Weapon>().onFire(transform);
+        
     }
     
     private void AltFirePerformed(InputAction.CallbackContext context){

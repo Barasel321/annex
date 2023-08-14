@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class AnnexWeapon : ScriptableObject
+[CreateAssetMenu(fileName = "NewWeapon", menuName = "Annex/New Weapon")]
+public class AnnexWeaponSO : ScriptableObject
 {
     // Start is called before the first frame update
 
@@ -28,11 +29,20 @@ public class AnnexWeapon : ScriptableObject
     public WeaponDamageType damageType;
     
     //IMPLEMENT SUGGESTIONS OR RANGES
-    public float weaponLevel;//scaling to be implemented
+    //public float weaponLevel {get; private set;}   //scaling to be implemented
     public float attackDamage;
-    public float attackSpeed;//atk/sec
+
+    //to be redone
+    public float attackSpeed;   //atk/sec
     
-    public float armorPenetration;//0-1
+    [Range(0,1)]
+    public float armorPenetration;
+
+    
+    public Vector3 hitboxScale = new Vector3(1,1,1);
+    public Vector3 hitboxPosition = new Vector3(0,0,0);
+    public float hitboxSpeed; //Set 0 for melee
+    public float hitboxLifetime = 0.2f; //In seconds
 
 
     private void OnEnable(){

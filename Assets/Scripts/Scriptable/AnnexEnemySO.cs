@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnnexEnemies : ScriptableObject
+public class AnnexEnemySO : ScriptableObject
 {
 
     public enum RaceType{
@@ -13,11 +13,13 @@ public class AnnexEnemies : ScriptableObject
         UNDEAD = 4     //Fodder, everywhere, whatever
     }
 
-
     public RaceType raceType;
 
     public float totalHealth;
-    
+    public float currentHealth;
+
+    [Range(0,1)]
+    public float armor;
 
     //more stuff, not bothered rn
 
