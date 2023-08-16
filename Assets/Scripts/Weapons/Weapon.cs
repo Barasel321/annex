@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour
 {
         // Start is called before the first frame update
 
-        [SerializeField] AnnexWeaponSO annexWeaponSO;
+        [SerializeField] public AnnexWeaponSO annexWeaponSO;
 
         public HitBox hitbox;
         private HitBox clone;
@@ -17,8 +17,11 @@ public class Weapon : MonoBehaviour
                 clone.annexWeaponSO = annexWeaponSO;
                 
                 clone.GetComponent<BoxCollider>().size = annexWeaponSO.hitboxScale;
-                clone.transform.position = attacker.position + attacker.forward + attacker.up;
                 clone.transform.rotation = attacker.rotation;
+                clone.transform.position = attacker.position
+                        + attacker.right *       annexWeaponSO.hitboxPosition.x
+                        + attacker.up *          annexWeaponSO.hitboxPosition.y  
+                        + attacker.forward *     annexWeaponSO.hitboxPosition.z;
 
         }
 }

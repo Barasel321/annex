@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -17,12 +18,10 @@ public class AnnexWeaponSO : ScriptableObject
     }
 
     public enum WeaponDamageType{
-        BLUDGEONING = 0,    //normal, reliable
-        PIERCING = 1,       //high damage, low armor pen
-        SLASHING = 2,       //ok damage, high armor pen
-        ELEMENTAL = 3,      //distinguishes races, custom effects
-        CHAOTIC = 4,        //distinguishes races, custom properties reflect chaos
-        RADIANT = 5         //ignores armor completely, highly picky with races
+        PHYSICAL = 1,       //normal reliable damage, variable properties
+        ELEMENTAL = 2,      //
+        CHAOTIC = 3,        //
+        RADIANT = 4         //
     }
     
     public WeaponTier tier;
@@ -32,12 +31,12 @@ public class AnnexWeaponSO : ScriptableObject
     //public float weaponLevel {get; private set;}   //scaling to be implemented
     public float attackDamage;
 
-    //to be redone
-    public float attackSpeed;   //atk/sec
+
+    public float attackSpeedMultiplier = 1.00f;//for animation,
+    public float attackCooldown = 1; //in seconds
     
     [Range(0,1)]
     public float armorPenetration;
-
     
     public Vector3 hitboxScale = new Vector3(1,1,1);
     public Vector3 hitboxPosition = new Vector3(0,0,0);

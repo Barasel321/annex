@@ -4,6 +4,7 @@ using System.Net;
 using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public interface InteractionAction{
     public void Interact(Transform interactor);
@@ -13,9 +14,26 @@ public class ThirdPersonAction : MonoBehaviour
 {
     // Start is called before the first frame update
 
+    public PlayerInputHandler handler;
+
     public CharacterController controller;
     public Animator animator;
     public Transform cam;
+
+    public float movementSpeed = 6f;
+    public float gravity = -9.81f;
+    public float jumpHeight = 4f;
+
+    public float smoothTime = 0.1f;
+    
+    Vector3 velocity;
+    float turnSmoothVelocity;
+
+    public Transform groundCheck;
+    public float groundDistance = 0.4f;
+    public LayerMask groundMask;
+
+    bool onGround;
 
     public LayerMask interactMask;
 
@@ -23,8 +41,12 @@ public class ThirdPersonAction : MonoBehaviour
 
     bool targetFound = false;
 
-    private int activeWeaponR;
-    private int activeWeaponL;
+
+    Weapon activeWeaponR;
+    Weapon activeWeaponL;
+    private int activeWeaponRI;
+    private int activeWeaponLI;
+    private bool attacking = false;
 
     private int MAX_WEAPON_COUNT;
 
@@ -37,40 +59,52 @@ public class ThirdPersonAction : MonoBehaviour
         playerInputActions = new();
         playerInputActions.Player.Enable();
 
-        activeWeaponR = 0;
-        activeWeaponL = 0;
-        MAX_WEAPON_COUNT = transform.Find("player_robot_scaled/rot/body/upper_body/arm_l/elbow_l/weapon_l").childCount;
+        
+        activeWeaponRI = 0;
+        activeWeaponLI = 0;
 
-        //playerInputActions.Player.Movement.performed += MovementPerformed;
-        playerInputActions.Player.Fire.performed += FirePerformed;
-        playerInputActions.Player.AltFire.performed += AltFirePerformed;
-        playerInputActions.Player.AltFire.canceled += AltFireCanceled;
-        playerInputActions.Player.Interact.performed += InteractPerformed;
-        playerInputActions.Player.WeaponSwapUp.performed += WeaponSwapUpPerformed;
-        playerInputActions.Player.WeaponSwapDown.performed += WeaponSwapDownPerformed;
+        SwitchWeaponR(0);
+        //SwitchWeaponL(0);
+    
+        MAX_WEAPON_COUNT = transform.Find("player_robot_scaled/rot/body/upper_body/arm_r/elbow_r/weapon_r").childCount;
 
+    }
+
+    public void Jump(){
+
+        if (onGround){
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+    }
+
+    public void Sprint(){
+        
+        animator.SetBool("isRunning",!animator.GetBool("isRunning"));
+        //if (animator.GetBool("isRunning")) animator.speed = 2; else animator.speed = 1;
+        if (animator.GetBool("isRunning")) movementSpeed *=2; else movementSpeed /=2;
+    }
+
+
+
+    public void Fire(){
+
+        if(!attacking){
+            attacking = true;
+            animator.SetTrigger("attack");
+        }
         
     }
 
-    private void FirePerformed(InputAction.CallbackContext context){
-
-        animator.SetTrigger("attack");
-
-        Transform weapon_r = transform.Find("player_robot_scaled/rot/body/upper_body/arm_r/elbow_r/weapon_r").GetChild(activeWeaponR);
-
-        weapon_r.GetComponent<Weapon>().onFire(transform);
-        
+    public void FireHitbox(){
+        activeWeaponR.onFire(transform);
     }
     
-    private void AltFirePerformed(InputAction.CallbackContext context){
-        animator.SetBool("isShielding",true);
+    public void AltFire(bool value){
+        animator.SetBool("isShielding",value);
     }
 
-    private void AltFireCanceled(InputAction.CallbackContext context){
-        animator.SetBool("isShielding",false);
-    }
 
-    private void InteractPerformed(InputAction.CallbackContext context){
+    public void Interact(){
         RaycastHit hit;
         
         targetFound = Physics.Raycast(transform.GetChild(1).position, transform.TransformDirection(Vector3.forward), out hit, interactDistance, interactMask);
@@ -85,39 +119,80 @@ public class ThirdPersonAction : MonoBehaviour
         }
     }
 
-    private void WeaponSwapUpPerformed(InputAction.CallbackContext context){
+    //REDO!!!
+    public void WeaponSwapUp(){
         
-        SwitchWeaponR(activeWeaponR+1 >= MAX_WEAPON_COUNT ? 0 : activeWeaponR+1);
+        SwitchWeaponR(activeWeaponRI+1 >= MAX_WEAPON_COUNT ? 0 : activeWeaponRI+1);
     }
 
 
-    private void WeaponSwapDownPerformed(InputAction.CallbackContext context){
+    public void WeaponSwapDown(){
         
-        SwitchWeaponR(activeWeaponR <= 0 ? MAX_WEAPON_COUNT-1 : activeWeaponR-1);
+        SwitchWeaponR(activeWeaponRI <= 0 ? MAX_WEAPON_COUNT-1 : activeWeaponRI-1);
     }
 
 
     private void SwitchWeaponL(int weapon){
-        Transform weapon_l = transform.Find("player_robot_scaled/rot/body/upper_body/arm_l/elbow_l/weapon_l");
-        weapon_l.GetChild(activeWeaponL).gameObject.SetActive(false);
-        weapon_l.GetChild(weapon).gameObject.SetActive(true);
+        
+        if (activeWeaponL != null){
+            activeWeaponL.gameObject.SetActive(false);
+        }
+        activeWeaponL = transform.Find("player_robot_scaled/rot/body/upper_body/arm_l/elbow_l/weapon_l").GetChild(weapon).GetComponent<Weapon>();
+        activeWeaponL.gameObject.SetActive(true);
 
-        activeWeaponL = weapon;
+        activeWeaponLI = weapon;
     }
 
     private void SwitchWeaponR(int weapon){
-        Transform weapon_r = transform.Find("player_robot_scaled/rot/body/upper_body/arm_r/elbow_r/weapon_r");
-        weapon_r.GetChild(activeWeaponR).gameObject.SetActive(false);
-        weapon_r.GetChild(weapon).gameObject.SetActive(true);
+        if (activeWeaponR != null){
+            activeWeaponR.gameObject.SetActive(false);
+        }
+        activeWeaponR = transform.Find("player_robot_scaled/rot/body/upper_body/arm_r/elbow_r/weapon_r").GetChild(weapon).GetComponent<Weapon>();
+        activeWeaponR.gameObject.SetActive(true);
     
-        activeWeaponR = weapon;
+        activeWeaponRI = weapon;
     }
 
+    public void DoneAttacking(){
+        attacking = false;
+    }
+
+    public void StartAttackCooldown(){
+        attacking = true;
+        Invoke("DoneAttacking",activeWeaponR.annexWeaponSO.attackCooldown/activeWeaponR.annexWeaponSO.attackSpeedMultiplier);
+    }
 
 
     // Update is called once per frame
     void Update()
     {
-        ;
-    }
+        Vector2 hDirection = handler.movementInput;
+
+
+        //Horizontal Translation
+        if (Mathf.Pow(hDirection.x,2) + Mathf.Pow(hDirection.y,2) >= 0.01f)
+        {   
+            animator.SetBool("isWalking",true);
+            float targetAngle = Mathf.Atan2(hDirection.x, hDirection.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, smoothTime);
+            transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
+
+            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            controller.Move(Time.deltaTime * movementSpeed * moveDirection.normalized);
+        }
+        else
+        {
+            animator.SetBool("isWalking",false);
+        }
+
+        //Vertical Translation aka gravity
+
+        onGround = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+        if (onGround && velocity.y < 0){
+            velocity.y = Mathf.Min(-2,velocity.y/2);
+        }
+
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);    }
 }

@@ -15,9 +15,10 @@ MonoBehaviour:
   tier: 1
   damageType: 0
   attackDamage: 5
-  attackSpeed: 1
+  attackSpeedMultiplier: 1
+  attackCooldown: 1
   armorPenetration: 0.2
   hitboxScale: {x: 1, y: 1, z: 1}
-  hitboxPosition: {x: 0, y: 0, z: 0}
+  hitboxPosition: {x: 0, y: 1, z: 1}
   hitboxSpeed: 4
   hitboxLifetime: 5

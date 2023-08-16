@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnnexEnemySO : ScriptableObject
+public class AnnexEntitySO : ScriptableObject
 {
 
     public enum RaceType{
@@ -16,11 +16,11 @@ public class AnnexEnemySO : ScriptableObject
     public RaceType raceType;
 
     public float totalHealth;
-    public float currentHealth;
 
     [Range(0,1)]
-    public float armor;
+    public float armor = 0f;
 
-    //more stuff, not bothered rn
+    public float movementSpeed = 3f; //units/sec
+
 
 }
