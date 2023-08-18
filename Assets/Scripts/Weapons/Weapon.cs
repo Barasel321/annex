@@ -19,7 +19,7 @@ public class Weapon : MonoBehaviour
                 clone.GetComponent<BoxCollider>().size = annexWeaponSO.hitboxScale;
                 clone.transform.rotation = attacker.rotation;
                 clone.transform.position = attacker.position
-                        + attacker.right *       annexWeaponSO.hitboxPosition.x
+                        - attacker.right *       annexWeaponSO.hitboxPosition.x
                         + attacker.up *          annexWeaponSO.hitboxPosition.y  
                         + attacker.forward *     annexWeaponSO.hitboxPosition.z;
 
