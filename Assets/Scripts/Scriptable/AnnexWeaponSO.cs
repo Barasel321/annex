@@ -34,6 +34,10 @@ public class AnnexWeaponSO : ScriptableObject
 
     public float attackSpeedMultiplier = 1.00f;//for animation, should probably be on entity
     public float attackCooldown = 1f; //in seconds
+
+
+    [Tooltip("MSM during attack animations")]
+    public float activeMovementSpeedMultiplier = 0f;
     
     [Range(0,1)]
     public float armorPenetration; //LOOK AT THIS AGAIN

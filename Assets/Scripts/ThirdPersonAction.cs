@@ -21,6 +21,7 @@ public class ThirdPersonAction : MonoBehaviour
     public Transform cam;
 
     public float movementSpeed = 6f;
+    private float currentSpeed;
     public float gravity = -9.81f;
     public float jumpHeight = 4f;
 
@@ -46,6 +47,9 @@ public class ThirdPersonAction : MonoBehaviour
     Weapon activeWeaponL;
     private int activeWeaponRI;
     private int activeWeaponLI;
+
+    private int[] activeArmorI;
+    
     private bool attacking = false;
 
     private int MAX_WEAPON_COUNT;
@@ -62,6 +66,13 @@ public class ThirdPersonAction : MonoBehaviour
         
         activeWeaponRI = 0;
         activeWeaponLI = 0;
+
+        currentSpeed = movementSpeed;
+        activeArmorI = new int[] {0,0,0};//HTL
+
+        SwitchArmor(0,AnnexArmorSo.ArmorSlot.HEAD);
+        SwitchArmor(0,AnnexArmorSo.ArmorSlot.TORSO);
+        SwitchArmor(0,AnnexArmorSo.ArmorSlot.LEGS);
 
         SwitchWeaponR(0);
         //SwitchWeaponL(0);
@@ -81,9 +92,12 @@ public class ThirdPersonAction : MonoBehaviour
         
         animator.SetBool("isRunning",!animator.GetBool("isRunning"));
         //if (animator.GetBool("isRunning")) animator.speed = 2; else animator.speed = 1;
-        if (animator.GetBool("isRunning")) movementSpeed *=2; else movementSpeed /=2;
+        ResetSpeed();
     }
 
+    private void ResetSpeed(){
+        currentSpeed = animator.GetBool("isRunning") ? movementSpeed * 2 : movementSpeed;
+    }
 
 
     public void Fire(){
@@ -91,6 +105,7 @@ public class ThirdPersonAction : MonoBehaviour
         if(!attacking){
             attacking = true;
             animator.SetTrigger("attack");
+            currentSpeed *= activeWeaponR.annexWeaponSO.activeMovementSpeedMultiplier;
         }
         
     }
@@ -159,7 +174,80 @@ public class ThirdPersonAction : MonoBehaviour
 
     public void StartAttackCooldown(){
         attacking = true;
+        ResetSpeed();
         Invoke("DoneAttacking",activeWeaponR.annexWeaponSO.attackCooldown/activeWeaponR.annexWeaponSO.attackSpeedMultiplier);
+    }
+
+    public void ArmorSwapUp(){
+        //
+    }
+
+    public void ArmorSwapDown(){
+        
+    }
+
+    public void SwitchArmor(int armorID, AnnexArmorSo.ArmorSlot slot){
+        
+        switch (slot){
+            case AnnexArmorSo.ArmorSlot.HEAD:{
+                transform.Find("player_robot_scaled/rot/body/upper_body/head").GetChild(activeArmorI[0]).gameObject.SetActive(false);
+                transform.Find("player_robot_scaled/rot/body/upper_body/head").GetChild(armorID).gameObject.SetActive(true);
+
+                transform.Find("player_robot_scaled/rot/body/upper_body/head/eyes").GetChild(activeArmorI[0]).gameObject.SetActive(false);
+                transform.Find("player_robot_scaled/rot/body/upper_body/head/eyes").GetChild(armorID).gameObject.SetActive(true);
+                
+                activeArmorI[0] = armorID;
+                break;
+            }
+            
+            case AnnexArmorSo.ArmorSlot.TORSO:{
+                transform.Find("player_robot_scaled/rot/body").GetChild(activeArmorI[1]).gameObject.SetActive(false);
+                transform.Find("player_robot_scaled/rot/body").GetChild(armorID).gameObject.SetActive(true);
+                
+                transform.Find("player_robot_scaled/rot/body/upper_body").GetChild(activeArmorI[1]).gameObject.SetActive(false);
+                transform.Find("player_robot_scaled/rot/body/upper_body").GetChild(armorID).gameObject.SetActive(true);
+                
+                transform.Find("player_robot_scaled/rot/body/upper_body/arm_l").GetChild(activeArmorI[1]).gameObject.SetActive(false);
+                transform.Find("player_robot_scaled/rot/body/upper_body/arm_l").GetChild(armorID).gameObject.SetActive(true);
+                
+                transform.Find("player_robot_scaled/rot/body/upper_body/arm_l/elbow_l").GetChild(activeArmorI[1]).gameObject.SetActive(false);
+                transform.Find("player_robot_scaled/rot/body/upper_body/arm_l/elbow_l").GetChild(armorID).gameObject.SetActive(true);
+                
+                transform.Find("player_robot_scaled/rot/body/upper_body/arm_r").GetChild(activeArmorI[1]).gameObject.SetActive(false);
+                transform.Find("player_robot_scaled/rot/body/upper_body/arm_r").GetChild(armorID).gameObject.SetActive(true);
+                
+                transform.Find("player_robot_scaled/rot/body/upper_body/arm_r/elbow_r").GetChild(activeArmorI[1]).gameObject.SetActive(false);
+                transform.Find("player_robot_scaled/rot/body/upper_body/arm_r/elbow_r").GetChild(armorID).gameObject.SetActive(true);
+                
+                activeArmorI[1] = armorID;
+                break;
+            }
+
+            case AnnexArmorSo.ArmorSlot.LEGS:{
+                
+                transform.Find("player_robot_scaled/rot/leg_l").GetChild(activeArmorI[2]).gameObject.SetActive(false);
+                transform.Find("player_robot_scaled/rot/leg_l").GetChild(armorID).gameObject.SetActive(true);
+
+                transform.Find("player_robot_scaled/rot/leg_l/knee_l").GetChild(activeArmorI[2]).gameObject.SetActive(false);
+                transform.Find("player_robot_scaled/rot/leg_l/knee_l").GetChild(armorID).gameObject.SetActive(true);
+                
+                transform.Find("player_robot_scaled/rot/leg_r").GetChild(activeArmorI[2]).gameObject.SetActive(false);
+                transform.Find("player_robot_scaled/rot/leg_r").GetChild(armorID).gameObject.SetActive(true);
+
+                transform.Find("player_robot_scaled/rot/leg_r/knee_r").GetChild(activeArmorI[2]).gameObject.SetActive(false);
+                transform.Find("player_robot_scaled/rot/leg_r/knee_r").GetChild(armorID).gameObject.SetActive(true);
+                
+                activeArmorI[2] = armorID;
+                break;
+            }
+            
+
+            default:{
+                print("Armor Slot not found");
+                break;
+            }
+            
+        }
     }
 
 
@@ -178,7 +266,7 @@ public class ThirdPersonAction : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(Time.deltaTime * movementSpeed * moveDirection.normalized);
+            controller.Move(Time.deltaTime * currentSpeed * moveDirection.normalized);
         }
         else
         {

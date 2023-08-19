@@ -98,6 +98,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ArmorSwapUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""e1c342a5-242d-49a2-b06c-e47bc851ced1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ArmorSwapDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""94a4e306-d3e2-4ebf-8691-8cddd4a74dec"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +250,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""WeaponSwapDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1c604455-6241-483a-b2f2-1c4371d59568"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ArmorSwapUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a6ea5ce9-209d-49eb-aa5f-cce86c82c5ae"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ArmorSwapDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -248,6 +288,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_WeaponSwapUp = m_Player.FindAction("WeaponSwapUp", throwIfNotFound: true);
         m_Player_WeaponSwapDown = m_Player.FindAction("WeaponSwapDown", throwIfNotFound: true);
+        m_Player_ArmorSwapUp = m_Player.FindAction("ArmorSwapUp", throwIfNotFound: true);
+        m_Player_ArmorSwapDown = m_Player.FindAction("ArmorSwapDown", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -317,6 +359,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_WeaponSwapUp;
     private readonly InputAction m_Player_WeaponSwapDown;
+    private readonly InputAction m_Player_ArmorSwapUp;
+    private readonly InputAction m_Player_ArmorSwapDown;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -329,6 +373,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @WeaponSwapUp => m_Wrapper.m_Player_WeaponSwapUp;
         public InputAction @WeaponSwapDown => m_Wrapper.m_Player_WeaponSwapDown;
+        public InputAction @ArmorSwapUp => m_Wrapper.m_Player_ArmorSwapUp;
+        public InputAction @ArmorSwapDown => m_Wrapper.m_Player_ArmorSwapDown;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -362,6 +408,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @WeaponSwapDown.started += instance.OnWeaponSwapDown;
             @WeaponSwapDown.performed += instance.OnWeaponSwapDown;
             @WeaponSwapDown.canceled += instance.OnWeaponSwapDown;
+            @ArmorSwapUp.started += instance.OnArmorSwapUp;
+            @ArmorSwapUp.performed += instance.OnArmorSwapUp;
+            @ArmorSwapUp.canceled += instance.OnArmorSwapUp;
+            @ArmorSwapDown.started += instance.OnArmorSwapDown;
+            @ArmorSwapDown.performed += instance.OnArmorSwapDown;
+            @ArmorSwapDown.canceled += instance.OnArmorSwapDown;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -390,6 +442,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @WeaponSwapDown.started -= instance.OnWeaponSwapDown;
             @WeaponSwapDown.performed -= instance.OnWeaponSwapDown;
             @WeaponSwapDown.canceled -= instance.OnWeaponSwapDown;
+            @ArmorSwapUp.started -= instance.OnArmorSwapUp;
+            @ArmorSwapUp.performed -= instance.OnArmorSwapUp;
+            @ArmorSwapUp.canceled -= instance.OnArmorSwapUp;
+            @ArmorSwapDown.started -= instance.OnArmorSwapDown;
+            @ArmorSwapDown.performed -= instance.OnArmorSwapDown;
+            @ArmorSwapDown.canceled -= instance.OnArmorSwapDown;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -417,5 +475,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnWeaponSwapUp(InputAction.CallbackContext context);
         void OnWeaponSwapDown(InputAction.CallbackContext context);
+        void OnArmorSwapUp(InputAction.CallbackContext context);
+        void OnArmorSwapDown(InputAction.CallbackContext context);
     }
 }

@@ -25,6 +25,8 @@ public class PlayerInputHandler : MonoBehaviour
         playerInputActions.Player.Interact.performed += InteractPerformed;
         playerInputActions.Player.WeaponSwapUp.performed += WeaponSwapUpPerformed;
         playerInputActions.Player.WeaponSwapDown.performed += WeaponSwapDownPerformed;
+        playerInputActions.Player.ArmorSwapUp.performed += ArmorSwapUpPerformed;
+        playerInputActions.Player.ArmorSwapDown.performed += ArmorSwapDownPerformed;
         
     }
 
@@ -64,6 +66,14 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void WeaponSwapDownPerformed(InputAction.CallbackContext context){
         thirdPersonAction.WeaponSwapDown();
+    }
+
+    private void ArmorSwapUpPerformed(InputAction.CallbackContext context){
+        thirdPersonAction.ArmorSwapUp();
+    }
+
+    private void ArmorSwapDownPerformed(InputAction.CallbackContext context){
+        thirdPersonAction.ArmorSwapDown();
     }
 
 }
