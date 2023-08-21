@@ -9,6 +9,8 @@ public class HitBox : MonoBehaviour
     
     
     public AnnexWeaponSO annexWeaponSO;
+    public Transform owner;
+    public bool isPlayerHitBox;
     private float speed;
     
     
@@ -27,8 +29,10 @@ public class HitBox : MonoBehaviour
     }
 
     void OnTriggerEnter (Collider other){
-        if (other.gameObject.layer == 9){
-            print(other.gameObject.name);
+        if (other.gameObject.layer == (isPlayerHitBox ? 9 : 6)){
+             if(other.gameObject.TryGetComponent(out Damageable damageable)){
+                    damageable.Damage(annexWeaponSO.attackDamage,owner);
+                }
         }
     }
 

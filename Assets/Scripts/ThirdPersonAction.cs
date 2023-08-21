@@ -10,7 +10,7 @@ public interface InteractionAction{
     public void Interact(Transform interactor);
 }
 
-public class ThirdPersonAction : MonoBehaviour
+public class ThirdPersonAction : MonoBehaviour, Damageable
 {
     // Start is called before the first frame update
 
@@ -19,6 +19,10 @@ public class ThirdPersonAction : MonoBehaviour
     public CharacterController controller;
     public Animator animator;
     public Transform cam;
+
+    public float maxHealth = 10f;
+    private float currentHealth;
+    private bool isDead;
 
     public float movementSpeed = 6f;
     private float currentSpeed;
@@ -66,7 +70,9 @@ public class ThirdPersonAction : MonoBehaviour
         
         activeWeaponRI = 0;
         activeWeaponLI = 0;
+        isDead = false;
 
+        currentHealth = maxHealth;
         currentSpeed = movementSpeed;
         activeArmorI = new int[] {0,0,0};//HTL
 
@@ -79,6 +85,27 @@ public class ThirdPersonAction : MonoBehaviour
     
         MAX_WEAPON_COUNT = transform.Find("player_robot_scaled/rot/body/upper_body/arm_r/elbow_r/weapon_r").childCount;
 
+    }
+
+    public void Damage(float damage, Transform attacker = null){
+        
+        if (damage <= 0){
+            return;
+        }
+        currentHealth = Mathf.Max(0, currentHealth - damage);
+
+        if (currentHealth == 0){
+            isDead = true;
+            animator.SetBool("isDead",true);
+        }
+    }
+
+    public void Heal(float heal){
+
+        if (heal <= 0){
+            return;
+        }
+        currentHealth = Mathf.Min(maxHealth, currentHealth + heal);
     }
 
     public void Jump(){
@@ -111,7 +138,7 @@ public class ThirdPersonAction : MonoBehaviour
     }
 
     public void FireHitbox(){
-        activeWeaponR.onFire(transform);
+        activeWeaponR.onFire(transform, true);
     }
     
     public void AltFire(bool value){
@@ -282,5 +309,7 @@ public class ThirdPersonAction : MonoBehaviour
         }
 
         velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);    }
+        controller.Move(velocity * Time.deltaTime);
+
+    }
 }
