@@ -4,7 +4,7 @@ using System.Net;
 using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public interface InteractionAction{
     public void Interact(Transform interactor);
@@ -14,11 +14,14 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
 {
     // Start is called before the first frame update
 
-    public PlayerInputHandler handler;
+    public PlayerInputHandler inputHandler;
+    public PlayerCanvasHandler canvasHandler;
 
     public CharacterController controller;
     public Animator animator;
     public Transform cam;
+
+    public Slider healthSlider;
 
     public float maxHealth = 10f;
     private float currentHealth;
@@ -93,11 +96,12 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
             return;
         }
         currentHealth = Mathf.Max(0, currentHealth - damage);
-
+        canvasHandler.ChangeHealthBar(currentHealth);
         if (currentHealth == 0){
             isDead = true;
             animator.SetBool("isDead",true);
         }
+
     }
 
     public void Heal(float heal){
@@ -106,6 +110,7 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
             return;
         }
         currentHealth = Mathf.Min(maxHealth, currentHealth + heal);
+        canvasHandler.ChangeHealthBar(currentHealth);
     }
 
     public void Jump(){
@@ -281,7 +286,7 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
     // Update is called once per frame
     void Update()
     {
-        Vector2 hDirection = handler.movementInput;
+        Vector2 hDirection = inputHandler.movementInput;
 
 
         //Horizontal Translation
