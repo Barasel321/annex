@@ -27,6 +27,7 @@ public class PlayerInputHandler : MonoBehaviour
         playerInputActions.Player.WeaponSwapDown.performed += WeaponSwapDownPerformed;
         playerInputActions.Player.ArmorSwapUp.performed += ArmorSwapUpPerformed;
         playerInputActions.Player.ArmorSwapDown.performed += ArmorSwapDownPerformed;
+        playerInputActions.Player.Inventory.performed += InventoryPerformed;
         
     }
 
@@ -76,4 +77,7 @@ public class PlayerInputHandler : MonoBehaviour
         thirdPersonAction.ArmorSwapDown();
     }
 
+    private void InventoryPerformed(InputAction.CallbackContext context){
+        thirdPersonAction.Inventory();
+    }
 }

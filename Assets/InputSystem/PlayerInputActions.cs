@@ -116,6 +116,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""881236c4-b629-4200-aa17-47377732a2a0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -272,6 +281,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""ArmorSwapDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c40f4e04-2c29-490b-9f5d-26f093a26c20"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -290,6 +310,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_WeaponSwapDown = m_Player.FindAction("WeaponSwapDown", throwIfNotFound: true);
         m_Player_ArmorSwapUp = m_Player.FindAction("ArmorSwapUp", throwIfNotFound: true);
         m_Player_ArmorSwapDown = m_Player.FindAction("ArmorSwapDown", throwIfNotFound: true);
+        m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -361,6 +382,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_WeaponSwapDown;
     private readonly InputAction m_Player_ArmorSwapUp;
     private readonly InputAction m_Player_ArmorSwapDown;
+    private readonly InputAction m_Player_Inventory;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -375,6 +397,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @WeaponSwapDown => m_Wrapper.m_Player_WeaponSwapDown;
         public InputAction @ArmorSwapUp => m_Wrapper.m_Player_ArmorSwapUp;
         public InputAction @ArmorSwapDown => m_Wrapper.m_Player_ArmorSwapDown;
+        public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -414,6 +437,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ArmorSwapDown.started += instance.OnArmorSwapDown;
             @ArmorSwapDown.performed += instance.OnArmorSwapDown;
             @ArmorSwapDown.canceled += instance.OnArmorSwapDown;
+            @Inventory.started += instance.OnInventory;
+            @Inventory.performed += instance.OnInventory;
+            @Inventory.canceled += instance.OnInventory;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -448,6 +474,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ArmorSwapDown.started -= instance.OnArmorSwapDown;
             @ArmorSwapDown.performed -= instance.OnArmorSwapDown;
             @ArmorSwapDown.canceled -= instance.OnArmorSwapDown;
+            @Inventory.started -= instance.OnInventory;
+            @Inventory.performed -= instance.OnInventory;
+            @Inventory.canceled -= instance.OnInventory;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -477,5 +506,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnWeaponSwapDown(InputAction.CallbackContext context);
         void OnArmorSwapUp(InputAction.CallbackContext context);
         void OnArmorSwapDown(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
 }

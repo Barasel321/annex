@@ -14,25 +14,23 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
 {
     // Start is called before the first frame update
 
-    public PlayerInputHandler inputHandler;
+    private PlayerInputHandler inputHandler;
     public PlayerCanvasHandler canvasHandler;
 
-    public CharacterController controller;
+    private CharacterController controller;
     public Animator animator;
     public Transform cam;
-
-    public Slider healthSlider;
 
     public float maxHealth = 10f;
     private float currentHealth;
     private bool isDead;
 
-    public float movementSpeed = 6f;
+    public const float MOVEMENT_SPEED = 3.5f;
     private float currentSpeed;
+
+    private float rotationSpeedMultiplier;
     public float gravity = -9.81f;
     public float jumpHeight = 4f;
-
-    public float smoothTime = 0.1f;
     
     Vector3 velocity;
     float turnSmoothVelocity;
@@ -67,16 +65,22 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
 
 
     void Awake(){
+
+        inputHandler = gameObject.GetComponent<PlayerInputHandler>();
+        controller = gameObject.GetComponent<CharacterController>();
+
         playerInputActions = new();
         playerInputActions.Player.Enable();
-
         
         activeWeaponRI = 0;
         activeWeaponLI = 0;
         isDead = false;
 
         currentHealth = maxHealth;
-        currentSpeed = movementSpeed;
+        currentSpeed = MOVEMENT_SPEED;
+
+        rotationSpeedMultiplier = 1f;
+
         activeArmorI = new int[] {0,0,0};//HTL
 
         SwitchArmor(0,AnnexArmorSo.ArmorSlot.HEAD);
@@ -100,6 +104,8 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
         if (currentHealth == 0){
             isDead = true;
             animator.SetBool("isDead",true);
+            currentSpeed = 0;
+            rotationSpeedMultiplier = 0;
         }
 
     }
@@ -128,13 +134,14 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
     }
 
     private void ResetSpeed(){
-        currentSpeed = animator.GetBool("isRunning") ? movementSpeed * 2 : movementSpeed;
+        currentSpeed = animator.GetBool("isRunning") ? MOVEMENT_SPEED * 2 : MOVEMENT_SPEED;
     }
 
 
     public void Fire(){
 
         if(!attacking){
+            rotationSpeedMultiplier = 0;
             attacking = true;
             animator.SetTrigger("attack");
             currentSpeed *= activeWeaponR.annexWeaponSO.activeMovementSpeedMultiplier;
@@ -164,6 +171,10 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
                 }
             }
         }
+    }
+    
+    public void Inventory(){
+        canvasHandler.ToggleInventory();
     }
 
     //REDO!!!
@@ -207,6 +218,7 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
     public void StartAttackCooldown(){
         attacking = true;
         ResetSpeed();
+        rotationSpeedMultiplier = 1f;
         Invoke("DoneAttacking",activeWeaponR.annexWeaponSO.attackCooldown/activeWeaponR.annexWeaponSO.attackSpeedMultiplier);
     }
 
@@ -220,6 +232,7 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
 
     public void SwitchArmor(int armorID, AnnexArmorSo.ArmorSlot slot){
         
+        //fuck this
         switch (slot){
             case AnnexArmorSo.ArmorSlot.HEAD:{
                 transform.Find("player_robot_scaled/rot/body/upper_body/head").GetChild(activeArmorI[0]).gameObject.SetActive(false);
@@ -286,15 +299,15 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
     // Update is called once per frame
     void Update()
     {
+
         Vector2 hDirection = inputHandler.movementInput;
 
-
         //Horizontal Translation
-        if (Mathf.Pow(hDirection.x,2) + Mathf.Pow(hDirection.y,2) >= 0.01f)
+        if (Mathf.Abs(hDirection.x) + Mathf.Abs(hDirection.y) >= 0.01f)
         {   
             animator.SetBool("isWalking",true);
             float targetAngle = Mathf.Atan2(hDirection.x, hDirection.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, smoothTime);
+            float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, 0.1f);
             transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;

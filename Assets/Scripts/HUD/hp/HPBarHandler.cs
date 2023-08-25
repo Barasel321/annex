@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerCanvasHandler : MonoBehaviour
+public class HPBarHandler : MonoBehaviour
 {
+    // Start is called before the first frame update
+
     public Image blackBar;
     public Image redBar;
     public Image pinkBar;
-    public GameObject HP;
-
-    public ThirdPersonAction thirdPersonAction;
-
-    public void ChangeHealthBar(float newHealth){
+    public void ChangeHealthBar(float newHealth, ThirdPersonAction thirdPersonAction){
 
 
         float oldFill = pinkBar.fillAmount;
@@ -46,7 +44,7 @@ public class PlayerCanvasHandler : MonoBehaviour
 
     private System.Collections.IEnumerator ShakeCoroutine(float duration, float magnitude)
     {
-        Vector3 originalPosition = HP.transform.localPosition;
+        Vector3 originalPosition = transform.localPosition;
         float elapsed = 0.0f;
 
         while (elapsed < duration)
@@ -54,12 +52,12 @@ public class PlayerCanvasHandler : MonoBehaviour
             float x = Random.Range(-1f, 1f) * magnitude;
             float y = Random.Range(-1f, 1f) * magnitude;
 
-            HP.transform.localPosition += new Vector3(x, y, originalPosition.z);
+            transform.localPosition += new Vector3(x, y, originalPosition.z);
             elapsed += Time.deltaTime;
 
             yield return null;
         }
 
-        HP.transform.localPosition = originalPosition;
+        transform.localPosition = originalPosition;
     }
 }
