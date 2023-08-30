@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using Unity.Mathematics;
 using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -101,9 +102,9 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
         }
         currentHealth = Mathf.Max(0, currentHealth - damage);
         canvasHandler.ChangeHealthBar(currentHealth);
-        if (currentHealth == 0){
+        if (currentHealth == 0 && !isDead){
             isDead = true;
-            animator.SetBool("isDead",true);
+            animator.SetTrigger("isDead");
             currentSpeed = 0;
             rotationSpeedMultiplier = 0;
         }
@@ -143,6 +144,7 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
         if(!attacking){
             rotationSpeedMultiplier = 0;
             attacking = true;
+            animator.speed = activeWeaponR.annexWeaponSO.attackSpeedMultiplier;
             animator.SetTrigger("attack");
             currentSpeed *= activeWeaponR.annexWeaponSO.activeMovementSpeedMultiplier;
         }
@@ -213,6 +215,7 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
 
     public void DoneAttacking(){
         attacking = false;
+        animator.speed = 1;
     }
 
     public void StartAttackCooldown(){
@@ -308,7 +311,7 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
             animator.SetBool("isWalking",true);
             float targetAngle = Mathf.Atan2(hDirection.x, hDirection.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
             float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, 0.1f);
-            transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
+            transform.rotation = Quaternion.Euler(0f, smoothAngle * rotationSpeedMultiplier + transform.eulerAngles.y * (1-rotationSpeedMultiplier), 0f);
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(Time.deltaTime * currentSpeed * moveDirection.normalized);

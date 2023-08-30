@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewWeapon", menuName = "Annex/New Weapon")]
-public class AnnexWeaponSO : ScriptableObject
+public class AnnexWeaponSO : AnnexItem
 {
 
     //This doesn't mean shit

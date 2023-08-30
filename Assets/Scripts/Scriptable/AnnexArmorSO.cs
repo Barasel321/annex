@@ -1,13 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
-public class AnnexArmorSo : ScriptableObject
+[CreateAssetMenu(fileName = "NewArmor", menuName = "Annex/New Armor Piece")]
+public class AnnexArmorSo : AnnexItem
 { 
 
-    public String armorName;//Default Armor, Woods Armor
-    public String armorID;//default, woods
 
     public enum ArmorTier{
         COMMON = 1,
@@ -31,6 +31,15 @@ public class AnnexArmorSo : ScriptableObject
 
     public float bonusHealth;//add health
     public float bonusSpeedMultiplier;//speed mods should scale additively
+
+    void Awake(){
+        if (armorSlot == ArmorSlot.HEAD)
+            this.type = ItemType.ArmorHead;
+        else if (armorSlot == ArmorSlot.TORSO)
+            this.type = ItemType.ArmorChest;
+        else if (armorSlot == ArmorSlot.LEGS)
+            this.type = ItemType.ArmorLegs;
+    }
 
     //other shit
 
