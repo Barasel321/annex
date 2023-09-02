@@ -7,12 +7,8 @@ public class InventoryHandler : MonoBehaviour
 {
 
     private bool showing;
-
-    //ENTIRE INVENTORY SYSTEM
-    public class AnnexItem{
-        public string itemName;
-        public string itemType;
-    }
+    public InventoryObject inventory;
+    Dictionary<ItemType,AnnexItem> EquippedSlots = new Dictionary<ItemType,AnnexItem>();
 
     void Awake(){
         showing = false;
@@ -22,5 +18,13 @@ public class InventoryHandler : MonoBehaviour
 
         showing = !showing;//flip
         gameObject.SetActive(showing);
+    }
+
+    public void DisplayInventory(){
+
+        for (int i = 0; i < inventory.Container.Count; i++){
+
+            //do stuff https://www.youtube.com/watch?v=_IqTeruf3-s&list=PLJWSdH2kAe_Ij7d7ZFR2NIW8QCJE74CyT&index=1
+        }
     }
 }

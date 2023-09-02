@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InventoryObject : ScriptableObject
 {
+
+    public int limit = -1; //-1 no limit
     public List<AnnexItem> Container = new List<AnnexItem>();
 
     public void AddItem(AnnexItem item){
@@ -16,4 +18,14 @@ public class InventoryObject : ScriptableObject
         }
         Container.Add(item);
     }
+
+    public void RemoveItem(AnnexItem item){
+        Container.Remove(item);
+    }
+
+    public void HardClear(){
+        Container = new List<AnnexItem>();
+    }
+
+    
 }

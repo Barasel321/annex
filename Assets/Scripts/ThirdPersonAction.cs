@@ -85,7 +85,7 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
         activeArmorI = new int[] {0,0,0};//HTL
 
         SwitchArmor(0,AnnexArmorSo.ArmorSlot.HEAD);
-        SwitchArmor(0,AnnexArmorSo.ArmorSlot.TORSO);
+        SwitchArmor(0,AnnexArmorSo.ArmorSlot.CHEST);
         SwitchArmor(0,AnnexArmorSo.ArmorSlot.LEGS);
 
         SwitchWeaponR(0);
@@ -248,7 +248,7 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
                 break;
             }
             
-            case AnnexArmorSo.ArmorSlot.TORSO:{
+            case AnnexArmorSo.ArmorSlot.CHEST:{
                 transform.Find("player_robot_scaled/rot/body").GetChild(activeArmorI[1]).gameObject.SetActive(false);
                 transform.Find("player_robot_scaled/rot/body").GetChild(armorID).gameObject.SetActive(true);
                 

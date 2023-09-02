@@ -4,29 +4,18 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+public enum DamageType{
+    GENERIC = 0,        //NOT INTENDED FOR NORMAL DAMAGE SOURCES
+    PHYSICAL = 1,       //normal reliable damage, variable properties
+    ELEMENTAL = 2,      //good picky damage, thematic properties
+    CHAOTIC = 3,        //great damage, crazy properties
+    RADIANT = 4         //ok damage, amazing properties
+}
+
 [CreateAssetMenu(fileName = "NewWeapon", menuName = "Annex/New Weapon")]
 public class AnnexWeaponSO : AnnexItem
 {
-
-    //This doesn't mean shit
-    public enum WeaponTier{
-        COMMON = 1,
-        UNCOMMON = 2,
-        RARE = 3,
-        VERY_RARE = 4,
-        LEGENDARY = 5
-    }
-
-    //This also doesn't mean shit for now
-    public enum WeaponDamageType{
-        PHYSICAL = 1,       //normal reliable damage, variable properties
-        ELEMENTAL = 2,      //good picky damage, thematic properties
-        CHAOTIC = 3,        //great damage, crazy properties
-        RADIANT = 4         //ok damage, amazing properties
-    }
-    
-    public WeaponTier tier;
-    public WeaponDamageType damageType;
+    public DamageType damageType;
     
     //IMPLEMENT SUGGESTIONS OR RANGES
     //public float weaponLevel {get; private set;}   //scaling to be implemented

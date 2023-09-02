@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f885c2819372afb4698578b7dc3fd7a8, type: 3}
   m_Name: Null
   m_EditorClassIdentifier: 
+  prefab: {fileID: 0}
+  type: 3
   tier: 1
+  displayName: Null
+  description: 
   damageType: 0
   attackDamage: 1
   attackSpeedMultiplier: 1
