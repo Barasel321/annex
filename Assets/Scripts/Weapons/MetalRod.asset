@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f885c2819372afb4698578b7dc3fd7a8, type: 3}
   m_Name: MetalRod
   m_EditorClassIdentifier: 
+  model: {fileID: 919132149155446097, guid: d206d04efad4e544b93b7e5083aefea7, type: 3}
+  icon: {fileID: 0}
+  type: 3
   tier: 1
-  damageType: 0
+  displayName: Default Sword
+  description: The sword you start with
+  damageType: 1
   attackDamage: 5
   attackSpeedMultiplier: 1
   attackCooldown: 1

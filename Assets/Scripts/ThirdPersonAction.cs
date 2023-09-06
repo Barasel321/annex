@@ -17,6 +17,7 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
 
     private PlayerInputHandler inputHandler;
     public PlayerCanvasHandler canvasHandler;
+    public InventoryHandler inventoryHandler;
 
     private CharacterController controller;
     public Animator animator;
@@ -84,9 +85,9 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
 
         activeArmorI = new int[] {0,0,0};//HTL
 
-        SwitchArmor(0,AnnexArmorSo.ArmorSlot.HEAD);
-        SwitchArmor(0,AnnexArmorSo.ArmorSlot.CHEST);
-        SwitchArmor(0,AnnexArmorSo.ArmorSlot.LEGS);
+        SwitchArmor(0,0);
+        SwitchArmor(0,1);
+        SwitchArmor(0,2);
 
         SwitchWeaponR(0);
         //SwitchWeaponL(0);
@@ -233,11 +234,11 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
         
     }
 
-    public void SwitchArmor(int armorID, AnnexArmorSo.ArmorSlot slot){
+    public void SwitchArmor(int armorID, int armorSlot){
         
         //fuck this
-        switch (slot){
-            case AnnexArmorSo.ArmorSlot.HEAD:{
+        switch (armorSlot){
+            case 0:{
                 transform.Find("player_robot_scaled/rot/body/upper_body/head").GetChild(activeArmorI[0]).gameObject.SetActive(false);
                 transform.Find("player_robot_scaled/rot/body/upper_body/head").GetChild(armorID).gameObject.SetActive(true);
 
@@ -248,7 +249,7 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
                 break;
             }
             
-            case AnnexArmorSo.ArmorSlot.CHEST:{
+            case 1:{
                 transform.Find("player_robot_scaled/rot/body").GetChild(activeArmorI[1]).gameObject.SetActive(false);
                 transform.Find("player_robot_scaled/rot/body").GetChild(armorID).gameObject.SetActive(true);
                 
@@ -271,7 +272,7 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
                 break;
             }
 
-            case AnnexArmorSo.ArmorSlot.LEGS:{
+            case 2:{
                 
                 transform.Find("player_robot_scaled/rot/leg_l").GetChild(activeArmorI[2]).gameObject.SetActive(false);
                 transform.Find("player_robot_scaled/rot/leg_l").GetChild(armorID).gameObject.SetActive(true);

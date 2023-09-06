@@ -12,7 +12,6 @@ public enum DamageType{
     RADIANT = 4         //ok damage, amazing properties
 }
 
-[CreateAssetMenu(fileName = "NewWeapon", menuName = "Annex/New Weapon")]
 public class AnnexWeaponSO : AnnexItem
 {
     public DamageType damageType;

@@ -4,13 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 //Go ahead, make a weapon with type ArmorHead, I dare you
-public enum ItemType{
-    ArmorHead,
-    ArmorChest,
-    ArmorLegs,
-    WeaponMain,
-    WeaponOff    
-}
 
 //for display purposes, will probably replace with int
 public enum ItemTier{
@@ -25,7 +18,6 @@ public class AnnexItem : ScriptableObject
 {
     public GameObject model;
     public Image icon;
-    public ItemType type;
     public ItemTier tier;
     public string displayName;//Annex Item
     [TextArea(15,15)]
