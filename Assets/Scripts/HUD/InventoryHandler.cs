@@ -40,7 +40,6 @@ public class InventoryHandler : MonoBehaviour
 
     public void SwapWeapons(int newSlot){
         activeWeaponSlot = newSlot;
-
     }
 
     public void SwapWeaponModel(AnnexWeaponSO newWeapon){
@@ -74,9 +73,41 @@ public class InventoryHandler : MonoBehaviour
             //do stuff https://www.youtube.com/watch?v=_IqTeruf3-s&list=PLJWSdH2kAe_Ij7d7ZFR2NIW8QCJE74CyT&index=1
             var obj = Instantiate(itemIcon,Vector3.zero,Quaternion.identity, transform.GetChild(0).GetChild(0));
             obj.GetComponent<RectTransform>().localPosition = new Vector3(11f,93f - 33f * i,0f);
+            obj.GetComponent<ItemButton>().item = inventory.Container[i];
+            // obj.GetComponent<Button>().onClick.AddListener(obj.GetComponent<ItemButton>().HandleButtonClick);
             //HANDLE IMAGE
             obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = inventory.Container[i].displayName;
             obj.SetActive(true);
         }
+    }
+
+    public void Equip(AnnexItem item){
+        
+        if (item is WeaponMain){
+            WeaponMain newWeaponMain = (WeaponMain)item;
+            weaponMain[activeWeaponSlot] = newWeaponMain;
+            SwapWeaponModel(newWeaponMain);
+        }
+        else if (item is WeaponOff){
+            WeaponOff newWeaponOff = (WeaponOff) item;
+            weaponOff = newWeaponOff;
+            SwapWeaponModel(newWeaponOff);
+        }
+        else if (item is ArmorHead){
+            ArmorHead newArmorHead = (ArmorHead) item;
+            armorHead = newArmorHead;
+            SwapArmorModel(newArmorHead);
+        }
+        else if (item is ArmorChest){
+            ArmorChest newArmorChest = (ArmorChest) item;
+            armorChest = newArmorChest;
+            SwapArmorModel(newArmorChest);
+        }
+        else if (item is ArmorLegs){
+            ArmorLegs newArmorLegs = (ArmorLegs) item;
+            armorLegs = newArmorLegs;
+            SwapArmorModel(newArmorLegs);
+        }
+        //expand if necessary
     }
 }
