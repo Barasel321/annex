@@ -23,10 +23,10 @@ public class PlayerInputHandler : MonoBehaviour
         playerInputActions.Player.AltFire.performed += AltFirePerformed;
         playerInputActions.Player.AltFire.canceled += AltFireCanceled;
         playerInputActions.Player.Interact.performed += InteractPerformed;
-        playerInputActions.Player.WeaponSwapUp.performed += WeaponSwapUpPerformed;
-        playerInputActions.Player.WeaponSwapDown.performed += WeaponSwapDownPerformed;
-        playerInputActions.Player.ArmorSwapUp.performed += ArmorSwapUpPerformed;
-        playerInputActions.Player.ArmorSwapDown.performed += ArmorSwapDownPerformed;
+        // playerInputActions.Player.WeaponSwapUp.performed += WeaponSwapUpPerformed;
+        // playerInputActions.Player.WeaponSwapDown.performed += WeaponSwapDownPerformed;
+        // playerInputActions.Player.ArmorSwapUp.performed += ArmorSwapUpPerformed;
+        // playerInputActions.Player.ArmorSwapDown.performed += ArmorSwapDownPerformed;
         playerInputActions.Player.Inventory.performed += InventoryPerformed;
         
     }
@@ -61,21 +61,21 @@ public class PlayerInputHandler : MonoBehaviour
         thirdPersonAction.Interact();
     }
 
-    private void WeaponSwapUpPerformed(InputAction.CallbackContext context){
-        thirdPersonAction.WeaponSwapUp();
-    }
+    // private void WeaponSwapUpPerformed(InputAction.CallbackContext context){
+    //     thirdPersonAction.WeaponSwapUp();
+    // }
 
-    private void WeaponSwapDownPerformed(InputAction.CallbackContext context){
-        thirdPersonAction.WeaponSwapDown();
-    }
+    // private void WeaponSwapDownPerformed(InputAction.CallbackContext context){
+    //     thirdPersonAction.WeaponSwapDown();
+    // }
 
-    private void ArmorSwapUpPerformed(InputAction.CallbackContext context){
-        thirdPersonAction.ArmorSwapUp();
-    }
+    // private void ArmorSwapUpPerformed(InputAction.CallbackContext context){
+    //     thirdPersonAction.ArmorSwapUp();
+    // }
 
-    private void ArmorSwapDownPerformed(InputAction.CallbackContext context){
-        thirdPersonAction.ArmorSwapDown();
-    }
+    // private void ArmorSwapDownPerformed(InputAction.CallbackContext context){
+    //     thirdPersonAction.ArmorSwapDown();
+    // }
 
     private void InventoryPerformed(InputAction.CallbackContext context){
         thirdPersonAction.Inventory();

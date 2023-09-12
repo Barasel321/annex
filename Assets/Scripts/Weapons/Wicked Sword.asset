@@ -9,22 +9,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f885c2819372afb4698578b7dc3fd7a8, type: 3}
-  m_Name: MetalRod
+  m_Script: {fileID: 11500000, guid: c939638f6919a394994528ff23385ed8, type: 3}
+  m_Name: Wicked Sword
   m_EditorClassIdentifier: 
-  model: {fileID: 919132149155446097, guid: d206d04efad4e544b93b7e5083aefea7, type: 3}
+  model: {fileID: 919132149155446097, guid: 6b7f30f1515c95848a601bef3f48e145, type: 3}
   icon: {fileID: 0}
-  type: 3
-  tier: 1
-  displayName: Default Sword
-  description: The sword you start with
-  damageType: 1
-  attackDamage: 5
+  tier: 2
+  displayName: Wicked Sword
+  description: i love cum cum loves me
+  damageType: 0
+  attackDamage: 0
   attackSpeedMultiplier: 1
   attackCooldown: 1
   activeMovementSpeedMultiplier: 0
-  armorPenetration: 0.2
+  armorPenetration: 0
   hitboxScale: {x: 1, y: 1, z: 1}
   hitboxPosition: {x: 0, y: 1, z: 1}
-  hitboxSpeed: 4
-  hitboxLifetime: 5
+  hitboxSpeed: 10
+  hitboxLifetime: 1

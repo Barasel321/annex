@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class ItemButton : MonoBehaviour
 {
     public AnnexItem item;
-
     private Button myButton;
+    public ThirdPersonAction action;
 
     void Start()
     {
@@ -25,6 +25,6 @@ public class ItemButton : MonoBehaviour
 
     public void HandleButtonClick()
     {
-        print(item.displayName);
+        action.Equip(item);        
     }
 }

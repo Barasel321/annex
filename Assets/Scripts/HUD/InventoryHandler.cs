@@ -26,6 +26,8 @@ public class InventoryHandler : MonoBehaviour
         showing = false;
         DisplayInventory();
         activeWeaponSlot = 0;
+        weaponMain = new WeaponMain[2];
+
     }
 
     public void ToggleInventory(){
@@ -81,33 +83,4 @@ public class InventoryHandler : MonoBehaviour
         }
     }
 
-    public void Equip(AnnexItem item){
-        
-        if (item is WeaponMain){
-            WeaponMain newWeaponMain = (WeaponMain)item;
-            weaponMain[activeWeaponSlot] = newWeaponMain;
-            SwapWeaponModel(newWeaponMain);
-        }
-        else if (item is WeaponOff){
-            WeaponOff newWeaponOff = (WeaponOff) item;
-            weaponOff = newWeaponOff;
-            SwapWeaponModel(newWeaponOff);
-        }
-        else if (item is ArmorHead){
-            ArmorHead newArmorHead = (ArmorHead) item;
-            armorHead = newArmorHead;
-            SwapArmorModel(newArmorHead);
-        }
-        else if (item is ArmorChest){
-            ArmorChest newArmorChest = (ArmorChest) item;
-            armorChest = newArmorChest;
-            SwapArmorModel(newArmorChest);
-        }
-        else if (item is ArmorLegs){
-            ArmorLegs newArmorLegs = (ArmorLegs) item;
-            armorLegs = newArmorLegs;
-            SwapArmorModel(newArmorLegs);
-        }
-        //expand if necessary
-    }
 }

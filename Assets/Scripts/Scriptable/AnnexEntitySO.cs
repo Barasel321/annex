@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnnexEntitySO : AnnexItem
+public class AnnexEntitySO : ScriptableObject
 {
 
     public enum RaceType{

@@ -18,6 +18,7 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
     private PlayerInputHandler inputHandler;
     public PlayerCanvasHandler canvasHandler;
     public InventoryHandler inventoryHandler;
+    public PlayerModelHandler modelHandler;
 
     private CharacterController controller;
     public Animator animator;
@@ -55,6 +56,8 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
     private int activeWeaponRI;
     private int activeWeaponLI;
 
+    private int activeWeaponMain;
+
     private int[] activeArmorI;
     
     private bool attacking = false;
@@ -74,8 +77,9 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
         playerInputActions = new();
         playerInputActions.Player.Enable();
         
-        activeWeaponRI = 0;
-        activeWeaponLI = 0;
+        // activeWeaponRI = 0;
+        // activeWeaponLI = 0;
+        activeWeaponMain = 0;
         isDead = false;
 
         currentHealth = maxHealth;
@@ -85,14 +89,14 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
 
         activeArmorI = new int[] {0,0,0};//HTL
 
-        SwitchArmor(0,0);
-        SwitchArmor(0,1);
-        SwitchArmor(0,2);
+        // SwitchArmor(0,0);
+        // SwitchArmor(0,1);
+        // SwitchArmor(0,2);
 
-        SwitchWeaponR(0);
+        // SwitchWeaponR(0);
         //SwitchWeaponL(0);
     
-        MAX_WEAPON_COUNT = transform.Find("player_robot_scaled/rot/body/upper_body/arm_r/elbow_r/weapon_r").childCount;
+        // MAX_WEAPON_COUNT = transform.Find("player_robot_scaled/rot/body/upper_body/arm_r/elbow_r/weapon_r").childCount;
 
     }
 
@@ -142,18 +146,18 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
 
     public void Fire(){
 
-        if(!attacking){
-            rotationSpeedMultiplier = 0;
-            attacking = true;
-            animator.speed = activeWeaponR.annexWeaponSO.attackSpeedMultiplier;
-            animator.SetTrigger("attack");
-            currentSpeed *= activeWeaponR.annexWeaponSO.activeMovementSpeedMultiplier;
-        }
+        // if(!attacking){
+        //     rotationSpeedMultiplier = 0;
+        //     attacking = true;
+        //     animator.speed = activeWeaponR.annexWeaponSO.attackSpeedMultiplier;
+        //     animator.SetTrigger("attack");
+        //     currentSpeed *= activeWeaponR.annexWeaponSO.activeMovementSpeedMultiplier;
+        // }
         
     }
 
     public void FireHitbox(){
-        activeWeaponR.onFire(transform, true);
+        // activeWeaponR.onFire(transform, true);
     }
     
     public void AltFire(bool value){
@@ -181,16 +185,16 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
     }
 
     //REDO!!!
-    public void WeaponSwapUp(){
+    // public void WeaponSwapUp(){
         
-        SwitchWeaponR(activeWeaponRI+1 >= MAX_WEAPON_COUNT ? 0 : activeWeaponRI+1);
-    }
+    //     SwitchWeaponR(activeWeaponRI+1 >= MAX_WEAPON_COUNT ? 0 : activeWeaponRI+1);
+    // }
 
 
-    public void WeaponSwapDown(){
+    // public void WeaponSwapDown(){
         
-        SwitchWeaponR(activeWeaponRI <= 0 ? MAX_WEAPON_COUNT-1 : activeWeaponRI-1);
-    }
+    //     SwitchWeaponR(activeWeaponRI <= 0 ? MAX_WEAPON_COUNT-1 : activeWeaponRI-1);
+    // }
 
 
     private void SwitchWeaponL(int weapon){
@@ -226,12 +230,30 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
         Invoke("DoneAttacking",activeWeaponR.annexWeaponSO.attackCooldown/activeWeaponR.annexWeaponSO.attackSpeedMultiplier);
     }
 
-    public void ArmorSwapUp(){
-        //
-    }
-
-    public void ArmorSwapDown(){
+    public void Equip(AnnexItem item){
         
+        if (item is WeaponMain weaponMain){
+            inventoryHandler.weaponMain[activeWeaponMain] = weaponMain;
+            modelHandler.SwapModel(weaponMain);
+        }
+        else if (item is WeaponOff weaponOff){
+            inventoryHandler.weaponOff = weaponOff;
+            modelHandler.SwapModel(weaponOff);
+        }
+        else if (item is ArmorHead armorHead){
+            inventoryHandler.armorHead = armorHead;
+            modelHandler.SwapModel(armorHead);
+        }
+        else if (item is ArmorChest armorChest){
+            inventoryHandler.armorChest = armorChest;
+            modelHandler.SwapModel(armorChest);
+        }
+        else if (item is ArmorLegs armorLegs){
+            inventoryHandler.armorLegs = armorLegs;
+            modelHandler.SwapModel(armorLegs);
+        }
+        //else if Artifact?
+
     }
 
     public void SwitchArmor(int armorID, int armorSlot){
