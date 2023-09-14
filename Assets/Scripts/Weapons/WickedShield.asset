@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66da4eda5cdc5ed458f304ae1969183b, type: 3}
+  m_Name: WickedShield
+  m_EditorClassIdentifier: 
+  model: {fileID: 919132149155446097, guid: e0ab634504360344fa7ccf5f4c992491, type: 3}
+  icon: {fileID: 0}
+  tier: 3
+  displayName: Wicked Shield
+  description: I am the cum that is approaching
+  damageType: 0
+  attackDamage: 0
+  attackSpeedMultiplier: 1
+  attackCooldown: 1
+  activeMovementSpeedMultiplier: 0
+  armorPenetration: 0
+  hitboxScale: {x: 1, y: 1, z: 1}
+  hitboxPosition: {x: 0, y: 1, z: 1}
+  hitboxSpeed: 0
+  hitboxLifetime: 0.2
