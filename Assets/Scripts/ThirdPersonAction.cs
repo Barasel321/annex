@@ -233,22 +233,27 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
     public void Equip(AnnexItem item){
         
         if (item is WeaponMain weaponMain){
+            if (inventoryHandler.weaponMain[activeWeaponMain] == weaponMain) return;
             inventoryHandler.weaponMain[activeWeaponMain] = weaponMain;
             modelHandler.SwapModel(weaponMain);
         }
         else if (item is WeaponOff weaponOff){
+            if (inventoryHandler.weaponOff == weaponOff) return;
             inventoryHandler.weaponOff = weaponOff;
             modelHandler.SwapModel(weaponOff);
         }
         else if (item is ArmorHead armorHead){
+            if (inventoryHandler.armorHead == armorHead) return;
             inventoryHandler.armorHead = armorHead;
             modelHandler.SwapModel(armorHead);
         }
         else if (item is ArmorChest armorChest){
+            if (inventoryHandler.armorChest == armorChest) return;
             inventoryHandler.armorChest = armorChest;
             modelHandler.SwapModel(armorChest);
         }
         else if (item is ArmorLegs armorLegs){
+            if (inventoryHandler.armorLegs == armorLegs) return;
             inventoryHandler.armorLegs = armorLegs;
             modelHandler.SwapModel(armorLegs);
         }
