@@ -16,7 +16,7 @@ public class PlayerInputHandler : MonoBehaviour
         playerInputActions.Player.Enable();
 
         //playerInputActions.Player.Movement.performed += MovementPerformed;
-        playerInputActions.Player.Jump.performed += JumpPerformed;
+        // playerInputActions.Player.Jump.performed += JumpPerformed;
         playerInputActions.Player.Sprint.performed += SprintPerformed;
         
         playerInputActions.Player.Fire.performed += FirePerformed;
@@ -37,9 +37,9 @@ public class PlayerInputHandler : MonoBehaviour
         movementInput = playerInputActions.Player.Movement.ReadValue<Vector2>();
     }
 
-    private void JumpPerformed(InputAction.CallbackContext context){
-        thirdPersonAction.Jump();
-    }
+    // private void JumpPerformed(InputAction.CallbackContext context){
+    //     thirdPersonAction.Jump();
+    // }
 
     private void SprintPerformed(InputAction.CallbackContext context){
         thirdPersonAction.Sprint();

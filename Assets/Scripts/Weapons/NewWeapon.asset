@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f885c2819372afb4698578b7dc3fd7a8, type: 3}
   m_Name: NewWeapon
   m_EditorClassIdentifier: 
+  model: {fileID: 0}
+  icon: {fileID: 0}
   tier: 1
+  displayName: 
+  description: 
   damageType: 0
   attackDamage: 0
-  attackSpeed: 0
+  attackSpeedMultiplier: 1
+  attackCooldown: 1
+  activeMovementSpeedMultiplier: 0
   armorPenetration: 0
   hitboxScale: {x: 1, y: 1, z: 1}
   hitboxPosition: {x: 0, y: 0, z: 0}

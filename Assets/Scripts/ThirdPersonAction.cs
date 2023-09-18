@@ -125,12 +125,6 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
         canvasHandler.ChangeHealthBar(currentHealth);
     }
 
-    public void Jump(){
-
-        if (onGround){
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
-    }
 
     public void Sprint(){
         
@@ -183,19 +177,6 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
     public void Inventory(){
         canvasHandler.ToggleInventory();
     }
-
-    //REDO!!!
-    // public void WeaponSwapUp(){
-        
-    //     SwitchWeaponR(activeWeaponRI+1 >= MAX_WEAPON_COUNT ? 0 : activeWeaponRI+1);
-    // }
-
-
-    // public void WeaponSwapDown(){
-        
-    //     SwitchWeaponR(activeWeaponRI <= 0 ? MAX_WEAPON_COUNT-1 : activeWeaponRI-1);
-    // }
-
 
     private void SwitchWeaponL(int weapon){
         
@@ -259,71 +240,6 @@ public class ThirdPersonAction : MonoBehaviour, Damageable
         }
         //else if Artifact?
 
-    }
-
-    public void SwitchArmor(int armorID, int armorSlot){
-        
-        //fuck this
-        switch (armorSlot){
-            case 0:{
-                transform.Find("player_robot_scaled/rot/body/upper_body/head").GetChild(activeArmorI[0]).gameObject.SetActive(false);
-                transform.Find("player_robot_scaled/rot/body/upper_body/head").GetChild(armorID).gameObject.SetActive(true);
-
-                transform.Find("player_robot_scaled/rot/body/upper_body/head/eyes").GetChild(activeArmorI[0]).gameObject.SetActive(false);
-                transform.Find("player_robot_scaled/rot/body/upper_body/head/eyes").GetChild(armorID).gameObject.SetActive(true);
-                
-                activeArmorI[0] = armorID;
-                break;
-            }
-            
-            case 1:{
-                transform.Find("player_robot_scaled/rot/body").GetChild(activeArmorI[1]).gameObject.SetActive(false);
-                transform.Find("player_robot_scaled/rot/body").GetChild(armorID).gameObject.SetActive(true);
-                
-                transform.Find("player_robot_scaled/rot/body/upper_body").GetChild(activeArmorI[1]).gameObject.SetActive(false);
-                transform.Find("player_robot_scaled/rot/body/upper_body").GetChild(armorID).gameObject.SetActive(true);
-                
-                transform.Find("player_robot_scaled/rot/body/upper_body/arm_l").GetChild(activeArmorI[1]).gameObject.SetActive(false);
-                transform.Find("player_robot_scaled/rot/body/upper_body/arm_l").GetChild(armorID).gameObject.SetActive(true);
-                
-                transform.Find("player_robot_scaled/rot/body/upper_body/arm_l/elbow_l").GetChild(activeArmorI[1]).gameObject.SetActive(false);
-                transform.Find("player_robot_scaled/rot/body/upper_body/arm_l/elbow_l").GetChild(armorID).gameObject.SetActive(true);
-                
-                transform.Find("player_robot_scaled/rot/body/upper_body/arm_r").GetChild(activeArmorI[1]).gameObject.SetActive(false);
-                transform.Find("player_robot_scaled/rot/body/upper_body/arm_r").GetChild(armorID).gameObject.SetActive(true);
-                
-                transform.Find("player_robot_scaled/rot/body/upper_body/arm_r/elbow_r").GetChild(activeArmorI[1]).gameObject.SetActive(false);
-                transform.Find("player_robot_scaled/rot/body/upper_body/arm_r/elbow_r").GetChild(armorID).gameObject.SetActive(true);
-                
-                activeArmorI[1] = armorID;
-                break;
-            }
-
-            case 2:{
-                
-                transform.Find("player_robot_scaled/rot/leg_l").GetChild(activeArmorI[2]).gameObject.SetActive(false);
-                transform.Find("player_robot_scaled/rot/leg_l").GetChild(armorID).gameObject.SetActive(true);
-
-                transform.Find("player_robot_scaled/rot/leg_l/knee_l").GetChild(activeArmorI[2]).gameObject.SetActive(false);
-                transform.Find("player_robot_scaled/rot/leg_l/knee_l").GetChild(armorID).gameObject.SetActive(true);
-                
-                transform.Find("player_robot_scaled/rot/leg_r").GetChild(activeArmorI[2]).gameObject.SetActive(false);
-                transform.Find("player_robot_scaled/rot/leg_r").GetChild(armorID).gameObject.SetActive(true);
-
-                transform.Find("player_robot_scaled/rot/leg_r/knee_r").GetChild(activeArmorI[2]).gameObject.SetActive(false);
-                transform.Find("player_robot_scaled/rot/leg_r/knee_r").GetChild(armorID).gameObject.SetActive(true);
-                
-                activeArmorI[2] = armorID;
-                break;
-            }
-            
-
-            default:{
-                print("Armor Slot not found");
-                break;
-            }
-            
-        }
     }
 
 

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b6298aba79aba845b09205ab266a83e, type: 3}
   m_Name: Default Legs
   m_EditorClassIdentifier: 
-  model: {fileID: 8332767886532481439, guid: 57d2315559216524b90090020164c3e3, type: 3}
+  model: {fileID: 5841538989453545294, guid: 0483ad1e5ce32464299ddd1d26df28f9, type: 3}
   icon: {fileID: 0}
-  tier: 0
-  displayName: Default Legs
+  tier: 1
+  displayName: Real
   description: 
   resistanceType: 0
   bonusHealth: 0
