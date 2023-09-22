@@ -7,7 +7,8 @@ public class ToggleDoor : MonoBehaviour, InteractionAction
     // Start is called before the first frame update
     public Animator animator;
     
-    public void Interact(){
+    public void Interact(Transform interactor){
         animator.SetTrigger("toggleDoor");
+        // print("success?");
     }
 }
